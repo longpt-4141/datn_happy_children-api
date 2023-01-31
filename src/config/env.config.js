@@ -1,4 +1,4 @@
-exports.DATABASE = process.env.DATABASE || 'development';
+exports.DATABASE = process.env.DATABASE ;
 
 exports.DB_HOST = process.env.DB_HOST || 'localhost';
 exports.DB_NAME = process.env.DB_NAME || 'happy_children';

@@ -1,10 +1,10 @@
 const { Sequelize } = require('sequelize');
 const {DB_NAME, DB_PASSWORD, DB_PORT, DB_HOST} = require('../config/env.config')
-
+console.log(DB_NAME)
 const sequelize = new Sequelize(DB_NAME, 'root', DB_PASSWORD, {
     host: DB_HOST,
     dialect: 'mysql',
-    logging: false,
+    logging: true,
     dialectOptions: {
         // useUTC: false, //for reading from database
         dateStrings: true,
