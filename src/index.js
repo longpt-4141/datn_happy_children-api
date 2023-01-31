@@ -21,9 +21,6 @@ configViewEngine(app);
 //connect database
 connectDatabase();
 
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to bezkoder application." });
-    });
 
 app.get('/register', (req, res, next) => {
     res.send({
