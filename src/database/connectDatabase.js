@@ -1,7 +1,8 @@
 const { Sequelize } = require('sequelize');
+const {DB_NAME, DB_PASSWORD, DB_PORT, DB_HOST} = require('../config/env.config')
 
-const sequelize = new Sequelize('happy_children', 'root', null, {
-    host: 'localhost',
+const sequelize = new Sequelize(DB_NAME, 'root', DB_PASSWORD, {
+    host: DB_HOST,
     dialect: 'mysql',
     logging: false,
     dialectOptions: {
@@ -11,7 +12,8 @@ const sequelize = new Sequelize('happy_children', 'root', null, {
         timezone: "+07:00"
       },
       timezone: "+07:00", //for writing to database
-      operatorsAliases: false
+      operatorsAliases: false,
+      port: DB_PORT
 })
 
 const connectDatabase = async () => {
