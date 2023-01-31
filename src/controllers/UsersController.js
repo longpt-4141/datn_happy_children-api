@@ -2,7 +2,7 @@ const db = require('../models/index');
 
 class UsersController {
     index = (req, res, next) => {
-        db.User.findAll()
+        db.users.findAll()
             .  then((users) => {
                 res.json({users})
             })
