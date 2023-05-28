@@ -2,34 +2,20 @@ const db = require('../models/index');
 const ROLES = db.roles;
 const USER = db.users;
 
-checkDuplicateUsernameOrEmail = (req, res, next) => {
-    //username
-    User.findOne({ 
-        where: {
-            username: req.body.username
-        }
-    }).then(user => {
-        if(user) {
-            res.status(400).send({ 
-                message: 'Failed! Username is already in use!'
-            })
-            return;
-        }
-        // check xong name --> email
-        //email address check
-        User.findOne({ 
+checkDuplicateEmail = (req, res, next) => {
+        USER.findOne({ 
             where: {
                 email: req.body.email
             }
         }).then(user => {
             if(user) {
-                res.status(400).send({ 
-                    message: 'Failed! email is already in use!'
+                res.status(200).send({ 
+                    EM: 'Email đã tồn tại, vui lòng thử email khác!',
+                    EC: "ERR_EMAIL_EXISTED"
                 })
                 return;
             }
             next();
-        })
     })
 }
 
@@ -49,7 +35,7 @@ checkRolesExisted = (req, res, next) => {
 };
 
 const verifySignUp = {
-    checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
+    checkDuplicateEmail: checkDuplicateEmail,
     checkRolesExisted: checkRolesExisted
 };
 
