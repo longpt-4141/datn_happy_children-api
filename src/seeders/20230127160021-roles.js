@@ -21,6 +21,13 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     }
+    ,
+    {
+      id: 4,
+      name: 'volunteer',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }
   ], {});
   },
 

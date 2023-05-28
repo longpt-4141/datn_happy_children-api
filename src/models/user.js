@@ -11,12 +11,24 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       users.belongsTo(models.roles, {foreignKey: 'roleId'})
+      users.hasOne(models.centers,{
+        foreignKey: 'userId',
+        sourceKey:'id'
+      })
     }
   }
   users.init({
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
+    avatar: DataTypes.BLOB,
 
   }, {
     sequelize,

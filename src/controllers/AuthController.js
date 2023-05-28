@@ -1,41 +1,30 @@
-const db = require("../models");
+const db = require('../models/index');
+const bcrypt = require('bcryptjs');
+const {checkEmailExist} = require('../services/loginRegisterService')
+const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
-const User = db.users;
-const Role = db.roles;
 
-const Op = db.Sequelize.Op;
-
-var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
-
-exports.signup = (req, res, next) => {
-    // save user to database
-    User.create({
-        username: req.body.username,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password,8)
-    }).then(user => {
-        if(req.body.roles) {
-            Role.findAll({
-                where: {
-                    name: {
-                        [Op.or]: req.body.roles
-                    }
+class AuthController {
+    checkAccount = async (req, res) => {
+        console.log('>>> check user', req.user)
+        db.users.findOne({
+            where : {
+                id : req.user.id
+            },
+            attributes : ['avatar']
+        }).then((user) => {
+            console.log('>>> user avatar', user.avatar)
+            res.status(200).send({
+                EM: 'Tài khoản hợp lệ',
+                EC: 'ACCOUNT_VALID',
+                DT: {
+                    ...req.user,
+                    accessToken: req.token,
+                    avatar : user.avatar
                 }
-            }).then(roles => {
-                user.setRoles(roles).then(() => {
-                    res.send({ message: "User was registered successfully!"})
-                });
-            });
-        }
-        else {
-            // user role = 1 
-            user.setRoles([1]).then(() => {
-                res.send({ message: "User was registered successfully!" });
             })
-        }
-    })
-    .catch(err => {
-        res.status(500).send({ message: err.message });
-    });
-}
+        })
+    }
+ }
+
+module.exports = new AuthController

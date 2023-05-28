@@ -3,6 +3,12 @@ const config = require("../config/auth.config");
 const db = require("../models");
 const User = db.users;
 
+createJWT = ()  => {
+  let token = jwt.sign({foo: 'bar'}, config.secret);
+  console.log(token)
+  return token
+}
+
 verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
 
@@ -14,11 +20,13 @@ verifyToken = (req, res, next) => {
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
+      console.log(err);
       return res.status(401).send({
         message: "Unauthorized!"
       });
     }
-    req.userId = decoded.id;
+    console.log({decoded});
+    // req.userId = decoded.id;
     next();
   });
 };
@@ -84,6 +92,7 @@ const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
   isModerator: isModerator,
+  createJWT: createJWT,
 //   isModeratorOrAdmin: isModeratorOrAdmin
 };
 module.exports = authJwt;

@@ -9,18 +9,18 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      username: {
-        type: Sequelize.STRING
-      },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       roleId: {
         type: Sequelize.INTEGER,
-        defaultValue: 1
+        defaultValue: 1,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
