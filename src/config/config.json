@@ -16,10 +16,11 @@
   },
   "production": {
     "username": "root",
-    "password": "LhTDheyZ0GgMNOCg8kOh",
+    "password": "cFnGliV42NkQQ9xgn5y5",
     "database": "railway",
-    "host": "containers-us-west-81.railway.app",
+    "host": "containers-us-west-107.railway.app",
     "dialect": "mysql",
-    "port" : 7609
+    "port" : 7614,
+    "timezone": "+7:00"
   }
 }
