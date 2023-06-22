@@ -6,6 +6,7 @@ const requestsRouter = require('./requests.routes');
 const notificationsRouter = require('./notification.routes')
 const reportsRouter = require('./report.routes');
 const newsRouter = require('./news.routes');
+const transactionRouter = require('./transaction.routes');
 const {checkUserLogin, getRoleByToken} = require('../middleware/index');
 const authRouter = require('./account.routes')
 function route(app) {
@@ -32,6 +33,9 @@ function route(app) {
         );
     app.use( '/news', 
         newsRouter
+        );
+    app.use( '/transaction', 
+        transactionRouter
         );
     app.use('/', indexRouter);
 }
