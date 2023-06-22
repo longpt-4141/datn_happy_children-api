@@ -40,7 +40,7 @@ app.use (
 );
 
 app.use(function(req, res, next) {
-    const allowedOrigins = ['https://happy-children.vercel.app', 'http://localhost:3000', 'http://127.0.0.1:9000'];
+    const allowedOrigins = ['https://happy-children.vercel.app', 'http://localhost:3000', 'http://127.0.0.1:9000', 'https://happy-children-guest.vercel.app'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
             res.setHeader('Access-Control-Allow-Origin', origin);
