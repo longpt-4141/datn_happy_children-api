@@ -93,7 +93,8 @@ class RequestsController {
             total_money: requestData.total_money,
             estimated_budget_url: requestData.estimated_budget_url,
 
-        }).then((request) => {
+        })
+        .then((request) => {
                 console.log('>>> new Request', request)
                 db.admin_notifications.create({
                     type: 'request/new',
@@ -102,12 +103,14 @@ class RequestsController {
                 }).then((noti) => {
                     _io.emit('notification', noti)
                     res.status(200).send({
-                    EM: 'Tạo yêu cầu thành công, Hãy kiếm tra request vừa tạo nhé',
-                    EC: 'SUCCESS_CREATE_NEW_REQUEST'
-                }).catch(err => {console.log(err)});
+                        EM: 'Tạo yêu cầu thành công, Hãy kiếm tra request vừa tạo nhé',
+                        EC: 'SUCCESS_CREATE_NEW_REQUEST'
+                    })
+                })
+                .catch(err => {console.log(err)})
                 
             })
-        }).catch(err => {
+        .catch(err => {
             console.log('error', err)
             res.status(500).send({
                 EM: 'Tạo yêu cầu thất bại, vui lòng chờ trong giây lát và thử lại',
@@ -218,7 +221,7 @@ class RequestsController {
                     where : {
                         id : adr
                     },
-                    attributes: ['money_transfer_confirm', 'updatedAt']
+                    attributes: ['money_transfer_confirm', 'updatedAt', 'total_money']
                 })
                 .then((request) => {
                     console.log(request)
