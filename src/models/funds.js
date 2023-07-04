@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       funds.hasMany(models.news, {foreignKey: "fundId", sourceKey: 'id'})
+      funds.hasMany(models.transactions, {foreignKey: "fundId", sourceKey: 'id'})
+      funds.hasMany(models.item_transactions, {foreignKey: "fundId", sourceKey: 'id'})
     }
   }
   funds.init({
