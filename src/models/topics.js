@@ -15,7 +15,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   topics.init({
     name: DataTypes.STRING,
-    isSuggest: DataTypes.INTEGER,
+    isSuggest: {
+      type : DataTypes.INTEGER,
+      defaultValue : 0
+    },
   }, {
     sequelize,
     modelName: 'topics',

@@ -8,7 +8,8 @@ const reportsRouter = require('./report.routes');
 const newsRouter = require('./news.routes');
 const transactionRouter = require('./transaction.routes');
 const {checkUserLogin, getRoleByToken} = require('../middleware/index');
-const authRouter = require('./account.routes')
+const authRouter = require('./account.routes');
+const masterSettingRouter = require('./master-setting.routes');
 function route(app) {
     app.use('/login', loginRouter);
     app.use('/register', registerRouter);
@@ -32,11 +33,12 @@ function route(app) {
         reportsRouter
         );
     app.use( '/news', 
-        newsRouter
+        newsRouter 
         );
     app.use( '/transaction', 
         transactionRouter
         );
+    app.use('/master-setting',masterSettingRouter)
     app.use('/', indexRouter);
 }
 
