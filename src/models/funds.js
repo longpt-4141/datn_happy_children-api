@@ -18,7 +18,17 @@ module.exports = (sequelize, DataTypes) => {
   funds.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    end_at: DataTypes.DATE
+    start_at: DataTypes.DATE,
+    end_at: DataTypes.DATE,
+    image_url: DataTypes.STRING,
+    sponsor_estimate_amount: DataTypes.STRING,
+    received_amount: DataTypes.INTEGER,
+    general_pay_amount: DataTypes.STRING,
+    report_file_url: DataTypes.STRING,
+    status: {
+      type : DataTypes.INTEGER,
+      defaultValue : 0
+    }
   }, {
     sequelize,
     modelName: 'funds',

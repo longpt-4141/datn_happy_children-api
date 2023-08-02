@@ -66,6 +66,38 @@ class ReportsController {
         }
     }
 
+    getAllReportsForGuest = (req, res) => {
+        db.reports.findAll({
+            where : {
+                status : 1
+            },
+            include: [
+                {
+                    model : db.requests,
+                    include: [
+                        {
+                            model : db.centers,
+                            attributes : ['name', 'id']
+                        },
+                        
+                    ],
+                    attributes : ['total_money', 'id','description'],
+                },
+                {
+                    model : db.receipts,
+
+                }
+            ], 
+        })
+        .then((reports) => {
+            res.send(reports)
+            console.log("get requests ok")
+        })
+        .catch((err) => {
+            console.log("get report failed", err)
+        })
+    }
+
     getSpecificReport =  (req, res) => {
         const adr = req.params.id
         let attributes = {
