@@ -13,9 +13,18 @@ checkDuplicateEmail = (req, res, next) => {
                     EM: 'Email đã tồn tại, vui lòng thử email khác!',
                     EC: "ERR_EMAIL_EXISTED"
                 })
-                return;
+                // return;
             }
-            next();
+            else {
+                res.status(200).send({ 
+                    EM: 'Email hợp lệ',
+                    EC: "SUCCESS_EMAIL"
+                })
+            }
+            // next();
+    })
+    .catch(err => {
+        console.log(err)
     })
 }
 

@@ -10,13 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      center_notifications.belongsTo(models.centers, { // thông báo từ admin cho trung tâm
+        foreignKey: "centerId",
+      })
     }
   }
   center_notifications.init({
     type: DataTypes.STRING,
     data: DataTypes.TEXT,
-    read_at: DataTypes.DATE
+    read_at: DataTypes.DATE,
+    centerId : DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'center_notifications',

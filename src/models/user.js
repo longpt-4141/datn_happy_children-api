@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     username: DataTypes.STRING,
-    avatar: DataTypes.BLOB,
+    avatar: DataTypes.STRING,
 
   }, {
     sequelize,

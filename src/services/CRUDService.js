@@ -5,15 +5,18 @@ let createNewUser = async (data) => {
     return new Promise(async(resolve, reject) => {
         try {
             let hashPasswordFromBcrypt = await hashUserPassword(data.password)
-            await db.users.create({
+            db.users.create({
                 email: data.email,
                 password : hashPasswordFromBcrypt,
+                username : data.username,
                 roleId : 2,
-            })
-            resolve({
-                EM: 'tạo tài khoản thành công',
-                EC: "REGISTER_SUCCESS",
-            })
+            }).then(user => {
+                resolve({
+                    EM: 'tạo tài khoản thành công',
+                    EC: "REGISTER_SUCCESS",
+                    DT: user.id
+                })
+            }).catch(err => console.log(err))
         } catch (error) {
             reject({
                 EM: 'tạo tài khoản thất bại, vui lòng thử lại!',
@@ -23,7 +26,7 @@ let createNewUser = async (data) => {
     })
 }
 
-let hashUserPassword = (password) => {
+const hashUserPassword = (password) => {
     return new Promise((resolve, reject) => {
         try {
             let hashPassword = bcrypt.hashSync(password, salt);
@@ -56,7 +59,38 @@ const checkPhoneNumberExist = async (phone) => {
     return false;
 }
 
-const createNewCenterService = async (rawUserData) => {
+const registerNewCenterService = async (rawUserData, userId) => {
+        db.centers.create({
+            name : rawUserData.name,
+            established_date: rawUserData.established_date,
+            province: rawUserData.province,
+            district: rawUserData.district,
+            address: rawUserData.address,
+            center_email: rawUserData.center_email,
+            phone_number: rawUserData.phone_number,
+            userId : userId
+        }).then((center) => {
+            let newBankList = [];
+            rawUserData.bank_list.forEach((bank) => {
+                newBankList.push({
+                    ...bank,
+                    centerId: center.id,
+                })
+            })
+            console.log(newBankList)
+            db.bank_informations.bulkCreate(newBankList).then((result) => {
+                console.log(result);
+            }).catch(err => {console.log(err);})
+        })
+        .catch(err => console.log('Loi tao center moi',err));
+        return {
+            EM: 'Bạn đã đăng ký tài khoản và thông tin thành công, vui lòng nhập email và mật khẩu cá nhân để đăng nhập hệ thống',
+            EC: 'REGISTER_NEW_CENTER_SUCCESS',
+        }
+    
+}
+
+const createNewCenterService = async (rawUserData, userId) => {
     let isEmailExist = await checkCenterEmailExist(rawUserData.center_email).catch(err => console.log('Loi check email',err));
     let isPhoneNumberExist = await checkPhoneNumberExist(rawUserData.phone_number).catch(err => console.log('Loi checkphone',err));
     if(isEmailExist === true) {
@@ -80,7 +114,7 @@ const createNewCenterService = async (rawUserData) => {
             address: rawUserData.address,
             center_email: rawUserData.center_email,
             phone_number: rawUserData.phone_number,
-
+            userId : userId
         }).then((center) => {
             let newBankList = [];
             rawUserData.bank_list.forEach((bank) => {
@@ -103,5 +137,9 @@ const createNewCenterService = async (rawUserData) => {
 }
 module.exports = {
     createNewUser: createNewUser,
-    createNewCenterService
+    checkCenterEmailExist,
+    checkPhoneNumberExist,
+    createNewCenterService,
+    registerNewCenterService,
+    hashUserPassword
 }

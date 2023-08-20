@@ -204,6 +204,59 @@ class TransactionController {
 			});
 	};
 
+	getAllItemTransactionsForGuest = async (req, res) => {
+		console.log(">>> query", req.query);
+		const offset = parseInt(req.query.page);
+        const time = req.query.time;
+        const searchText = req.query.username
+
+        const condition = {
+            status: 1,
+            updatedAt: !time || time === 'undefined' ?  {
+                [Op.not]: null,
+            } : getTimeCondition(time),
+            username : searchText ? {
+                [Op.like]: `%${searchText}%`,
+            }
+            :
+            {
+                [Op.not]: null, 
+            }
+        }
+
+
+		//normal transaction
+		db.item_transactions
+			.findAndCountAll({
+				offset: offset,
+				limit: 10,
+				where: condition ,
+				order: [
+					// ['updatedAt', 'DESC'],
+					["updatedAt", "DESC"],
+					// tạo gần nhất thì xếp đầu
+				],
+				include: [
+					{
+						model: db.funds,
+					},
+				],
+			})
+			.then((transactions) => {
+				console.log(">>> get item transaction success");
+				res.status(200).send({
+					EM: "Giao dịch thành công, cảm ơn tấm lòng của bạn. Bạn hãy kiểm tra mail để xác nhận nhé!",
+					EC: "SUCCESS_GET_NORMAL_TRANSACTION",
+					DT: {
+                        ...transactions,
+                    },
+				});
+			})
+			.catch((err) => {
+				console.log(">>> get item transaction failed", err);
+			});
+	};
+
 	confirmDonation = (req, res) => {
 		console.log("confirm", req.body);
 		const confirm_data = req.body;

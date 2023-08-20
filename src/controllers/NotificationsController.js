@@ -1,12 +1,13 @@
 const moment = require('moment');
 const db = require('../models/index');
-const { where } = require('sequelize');
+const { where, Op } = require('sequelize');
 class NotificationsController {
 
     getAllNotifications = (req, res, next) => {
         console.log('>>>> get role for notification', req.body)
-        const currentRole = req.body.roleId;
+        const currentRole = req.body.roleId; 
         const offset  = req.body.offset
+        const centerId  = req.body.centerId ? req.body.centerId : null
         if (currentRole === 1) {
             db.admin_notifications.findAndCountAll({
                 offset: offset, 
@@ -28,6 +29,9 @@ class NotificationsController {
             db.center_notifications.findAndCountAll({
                 offset: offset, 
                 limit: 10,
+                where : {
+                    centerId : centerId
+                },
                 // include : {
                 //     model : db.centers,
                 //     attributes : ['name']
@@ -103,6 +107,63 @@ class NotificationsController {
                 console.log('update read noti', error)
             })
         }
+    }
+
+    getAllCenterReminders = (req, res) => {
+        console.log('>>>> get role for notification', req.body)
+        // const offset  = req.body.offset
+        const centerId  = req.body.centerId ? req.body.centerId : null
+            db.center_notifications.findAndCountAll({
+                // offset: offset, 
+                // limit: 10,
+                where : {
+                    centerId : centerId,
+                    type: {
+                        [Op.eq]: 'request/accepted',
+                    },
+                    read_at : {
+                        [Op.eq]: null,
+                    }
+                },
+                order: [
+                    ['createdAt', 'DESC']
+                ],
+            },
+            )
+            .then((notifications) => {
+                console.log(notifications)
+                res.send(notifications)
+            })
+    }
+
+    getAllAdminReminders = (req, res) => {
+        console.log('>>>> get role for notification', req.body)
+        // const offset  = req.body.offset
+            db.admin_notifications.findAndCountAll({
+                // offset: offset, 
+                // limit: 10,
+                where : {
+                    [Op.or]: [
+                        {
+                            type : { [Op.eq]: 'request/new' }
+                        },
+                        {
+                            type : { [Op.eq]: 'report/new' }
+                        }
+                    ],
+                    read_at : {
+                        [Op.eq]: null,
+                    }
+                },
+                order: [
+                    ['createdAt', 'DESC']
+                ],
+            },
+            )
+            .then((notifications) => {
+                console.log(notifications)
+                res.send(notifications)
+            })
     }
  }
 

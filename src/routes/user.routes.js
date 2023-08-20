@@ -3,8 +3,7 @@ const router = express.Router();
 
 const AuthController = require('../controllers/AuthController');
 const LoginController = require('../controllers/LoginController');
+const UsersController = require('../controllers/UsersController');
 
-router.put('/')
-router.post('/', AuthController.checkAccount);
-router.put('/', LoginController.changePassword)
+router.put('/change-avatar', UsersController.changeUserAvatar)
 module.exports = router

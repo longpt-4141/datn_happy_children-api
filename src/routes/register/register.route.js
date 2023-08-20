@@ -5,6 +5,7 @@ const {verifySignUp} = require('../../middleware/index')
 const registerController = require('../../controllers/RegisterController')
 
 
-router.post('/', verifySignUp.checkDuplicateEmail ,registerController.register);
+router.post('/checkExistEmail', verifySignUp.checkDuplicateEmail);
+router.post('/', registerController.register);
 
 module.exports = router

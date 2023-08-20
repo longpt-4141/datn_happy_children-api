@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     note_reject: DataTypes.STRING,
     note_agree: DataTypes.STRING,
-    estimated_budget_file: DataTypes.BLOB('long'),
+    // estimated_budget_file: DataTypes.BLOB('long'),
     estimated_budget_url: DataTypes.STRING,
     type_request: DataTypes.INTEGER, 
     money_transfer_confirm: {

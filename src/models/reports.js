@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     payment_file_url: DataTypes.STRING,
     note_reject: DataTypes.STRING,
-    total_pay_money: DataTypes.INTEGER
+    total_pay_money: DataTypes.INTEGER,
+    expire_at : DataTypes.DATE
   }, {
     sequelize,
     modelName: 'reports',

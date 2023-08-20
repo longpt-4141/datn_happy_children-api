@@ -65,15 +65,26 @@ class CentersController {
     editCenter = async (req, res, next) => {
         const formData = req.body;
         const adr = req.params.id
-        // db.centers.create({
-        //     name: formData.name,
-        // }
-        await db.centers.update({avatar : formData.avatar}, {
-            where: {
-                id: adr
+        console.log(formData)
+        let editData = {}
+        for (const property in formData) {
+            // console.log(formData[property])
+            if(formData[property] !== '' && property !== 'id') {
+                editData[property] = formData[property]
             }
-        })
-        console.log(req.params.id)
+        }
+        console.log({editData})
+        db.centers.update(editData, {
+                where: {
+                    id: adr
+                }
+            }).then(() => {
+                console.log(">>>> Success update center data")
+                res.status(200).json({
+                    EM: "Bạn đã cập nhật thông tin thành công, vui lòng kiểm tra lại", //err message
+                    EC: "SUCCESS_UPDATE_CENTER", //err code
+                })
+            }) 
     }
 
     deleteSpecificCenter = (req, res) => {

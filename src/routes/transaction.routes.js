@@ -8,6 +8,7 @@ router.get('/admin-get-fund-transaction', TransactionController.getAllFundTransa
 router.get('/admin-get-item-transaction', TransactionController.getAllItemTransactionsForAdmin)
 router.get('/get-for-guest', TransactionController.getAllTransactionsForGuest)
 router.get('/guest-get-fund-transaction', TransactionController.getAllFundTransactionsForGuest)
+router.get('/guest-get-item-transaction', TransactionController.getAllItemTransactionsForGuest)
 router.get('/get-chart-data', TransactionController.getChartData)
 router.get('/get-all-funds', TransactionController.getAllFunds)
 router.get('/get-all-normal-money', TransactionController.getAllNormalMoney)

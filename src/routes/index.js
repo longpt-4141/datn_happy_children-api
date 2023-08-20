@@ -10,6 +10,9 @@ const transactionRouter = require('./transaction.routes');
 const {checkUserLogin, getRoleByToken} = require('../middleware/index');
 const authRouter = require('./account.routes');
 const masterSettingRouter = require('./master-setting.routes');
+const checkPassword = require('../middleware/checkPassword');
+const userRouter = require('./user.routes')
+const reminderRouter = require('./reminder.routes');
 function route(app) {
     app.use('/login', loginRouter);
     app.use('/register', registerRouter);
@@ -18,12 +21,22 @@ function route(app) {
         checkUserLogin.checkUserAccessToken ,
         authRouter
         );
+    app.use('/users', 
+        userRouter
+        );
+    app.use('/change-password', 
+        checkPassword.checkValidatePassword ,
+        authRouter
+        );
     app.use('/notifications', 
             notificationsRouter
         );
+    app.use('/reminder', 
+            reminderRouter
+        );
     app.use( '/centers', 
-        checkUserLogin.checkUserAccessToken , 
-        checkUserLogin.checkAdminPermission,
+        // checkUserLogin.checkUserAccessToken , 
+        // checkUserLogin.checkAdminPermission,
         centersRouter
         );
     app.use( '/requests', 
